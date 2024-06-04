@@ -54,7 +54,7 @@ Ensure you have the following installed:
 1. **Clone the Repository**
    Open your terminal (or command prompt on Windows) and run the following command to clone the source code:
    ```
-   git clone git@gitlab.aber.ac.uk:mik53/ai-music-generator.git
+   git clone [https://github.com/smile021204/ai-music-generator.git]
    cd ai-music-generator
    ```
 
