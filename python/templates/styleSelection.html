@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #styleSelection {
+            position: relative;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://source.unsplash.com/featured/?music,instruments');
+        }
+
+        .card {
+            text-align: center;
+            transition: transform 0.2s;
+            color: black;
+            padding: 20px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            margin-bottom: 20px;
+        }
+
+        .card.selected {
+            transform: scale(1.1);
+            border: 2px solid #4CAF50;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+<div id="styleSelection" class="hidden h-screen flex flex-col items-center justify-start bg-cover bg-center relative">
+    <div class="absolute-bg"></div>
+    <div class="absolute inset-0 bg-black opacity-30"></div>
+    <div class="z-10 text-white">
+        <div class="flex items-center justify-center mb-8 pt-8">
+            <button onclick="navigateTo('index.html')" class="text-white text-2xl mr-4">&lt;</button>
+            <h2 class="text-white text-3xl font-bold">Choose Your Melody Style and Configuration</h2>
+        </div>
+        <p class="text-white text-lg mb-4" style="text-align: center">Select the composer's style you as much as wish.
+            Multiple composers' selection may result chaotic melody. </p>
+        <form action="/generate" method="POST" class="flex flex-wrap justify-center space-x-4 overflow-x-auto p-4">
+            <div onclick="toggleCardSelection(this)" class="card bg-white bg-opacity-80 p-4 rounded cursor-pointer"
+                 data-composer="Bach">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Johann_Sebastian_Bach.png/256px-Johann_Sebastian_Bach.png"
+                     alt="Bach"
+                     class="w-32 h-32 object-cover rounded mb-2">
+                <h3 class="text-lg font-bold">Bach</h3>
+            </div>
+            <div onclick="toggleCardSelection(this)" class="card bg-white bg-opacity-80 p-4 rounded cursor-pointer"
+                 data-composer="Beethoven">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Beethoven.jpg/256px-Beethoven.jpg"
+                     alt="Beethoven"
+                     class="w-32 h-32 object-cover rounded mb-2">
+                <h3 class="text-lg font-bold">Beethoven</h3>
+            </div>
+            <div onclick="toggleCardSelection(this)" class="card bg-white bg-opacity-80 p-4 rounded cursor-pointer"
+                 data-composer="Chopin">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Frederic_Chopin_photo.jpeg/256px-Frederic_Chopin_photo.jpeg"
+                     alt="Chopin"
+                     class="w-32 h-32 object-cover rounded mb-2">
+                <h3 class="text-lg font-bold">Chopin</h3>
+            </div>
+            <div onclick="toggleCardSelection(this)" class="card bg-white bg-opacity-80 p-4 rounded cursor-pointer"
+                 data-composer="Debussy">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Claude_Debussy_by_Atelier_Nadar.jpg/256px-Claude_Debussy_by_Atelier_Nadar.jpg"
+                     alt="Debussy"
+                     class="w-32 h-32 object-cover rounded mb-2">
+                <h3 class="text-lg font-bold">Debussy</h3>
+            </div>
+            <div onclick="toggleCardSelection(this)" class="card bg-white bg-opacity-80 p-4 rounded cursor-pointer"
+                 data-composer="Mozart">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Mozart_Portrait_Croce.jpg/256px-Mozart_Portrait_Croce.jpg"
+                     alt="Mozart"
+                     class="w-32 h-32 object-cover rounded mb-2">
+                <h3 class="text-lg font-bold">Mozart</h3>
+            </div>
+            <div onclick="toggleCardSelection(this)" class="card bg-white bg-opacity-80 p-4 rounded cursor-pointer"
+                 data-composer="Schubert">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Franz_Schubert_by_Wilhelm_August_Rieder_1875.jpg/256px-Franz_Schubert_by_Wilhelm_August_Rieder_1875.jpg"
+                     alt="Schubert"
+                     class="w-32 h-32 object-cover rounded mb-2">
+                <h3 class="text-lg font-bold">Schubert</h3>
+            </div>
+            <div onclick="toggleCardSelection(this)" class="card bg-white bg-opacity-80 p-4 rounded cursor-pointer"
+                 data-composer="Pop">
+                <img src="https://images.pexels.com/photos/219101/pexels-photo-219101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                     alt="Pop"
+                     class="w-32 h-32 object-cover rounded mb-2">
+                <h3 class="text-lg font-bold">Pop</h3>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="bg-blur bg-white bg-opacity-20 p-4 rounded w-full max-w-md config-section mt-8">
+                <div class="mb-4">
+                    <label for="num_notes" class="block text-white mb-2">Number of Notes</label>
+                    <input type="number" id="num_notes" name="num_notes" value="100" class="w-full text-black">
+                </div>
+                <div>
+                    <label for="tempo" class="block text-white mb-2">Tempo (BPM) <span id="bpmInfo">*</span></label>
+                    <input type="number" id="tempo" name="tempo" value="120" class="w-full text-black">
+                    <span id="bpmTooltip" class="hidden text-white">BPM stands for Beats Per Minute. It is a measure of the tempo of the music. If the values of tempo and the number of notes are same, 1 min of music is generated. </span>
+                </div>
+                <div class="mb-4">
+                    <label for="chaotic-level" class="block text-white mb-2">Chaotic Level: <span
+                            id="chaoticInfo">*</span></label>
+                    <input type="range" id="chaotic-level" name="chaotic_level" min="1" max="10" value="10"
+                           class="w-full text-black">
+                    <p id="chaotic-level-display" class="text-white">Chaotic Level: 10</p>
+                    <span id="chaoticTooltip" class="hidden text-white">Chaotic Level is a measure of the complexity of the music. If the chaotic level is close to 1, simple music is generated. 7~8 are the best for a balanced melody.</span>
+                </div>
+                <div style="display: none;">
+                    <input type="checkbox" id="genreBach" name="genre" value="Bach">
+                    <input type="checkbox" id="genreBeethoven" name="genre" value="Beethoven">
+                    <input type="checkbox" id="genreChopin" name="genre" value="Chopin">
+                    <input type="checkbox" id="genreDebussy" name="genre" value="Debussy">
+                    <input type="checkbox" id="genreMozart" name="genre" value="Mozart">
+                    <input type="checkbox" id="genreSchubert" name="genre" value="Schubert">
+                    <input type="checkbox" id="genrePop" name="genre" value="Pop">
+                </div>
+                <button type="submit" class="bg-black text-white py-2 px-4 rounded mt-4 mx-auto block">Generate
+                    Melody
+                </button>
+            </div>
+
+
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+    function navigateTo(url) {
+    window.location.href = url;
+    }
+
+    function toggleCardSelection(card) {
+        card.classList.toggle('selected');
+        const composer = card.getAttribute('data-composer');
+        const checkbox = document.getElementById('genre' + composer);
+        checkbox.checked = !checkbox.checked;
+    }
+
+
+    function updateComposerSelection() {
+        const selectedComposers = Array.from(document.querySelectorAll('.card.selected')).map(card => card.getAttribute('data-composer'));
+        document.getElementById('selectedComposers').value = selectedComposers.join(',');
+    }
+
+    document.getElementById('chaotic-level').addEventListener('input', function (event) {
+        document.getElementById('chaotic-level-display').textContent = 'Chaotic Level: ' + event.target.value;
+    });
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+        const selectedComposers = Array.from(document.querySelectorAll('.card.selected')).map(card => card.getAttribute('data-composer'));
+        if (selectedComposers.length === 0) {
+            alert("Please select at least one composer before generating the melody.");
+            event.preventDefault();
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+        const numNotes = document.getElementById('num_notes').value;
+        const tempo = document.getElementById('tempo').value;
+
+        if (numNotes < 1) {
+            alert("Number of notes must be greater than 0.");
+            event.preventDefault();
+        }
+
+        if (tempo < 1) {
+            alert("Tempo (BPM) must be greater than 0.");
+            event.preventDefault();
+        }
+
+        const selectedComposers = Array.from(document.querySelectorAll('.card.selected')).map(card => card.getAttribute('data-composer'));
+        if (selectedComposers.length === 0) {
+            alert("Please select at least one composer before generating the melody.");
+            event.preventDefault();
+        }
+    });
+
+
+    document.getElementById('bpmInfo').addEventListener('click', function () {
+        var tooltip = document.getElementById('bpmTooltip');
+        if (tooltip.classList.contains('hidden')) {
+            tooltip.classList.remove('hidden');
+        } else {
+            tooltip.classList.add('hidden');
+        }
+    });
+
+    document.getElementById('chaoticInfo').addEventListener('click', function () {
+        var tooltip = document.getElementById('chaoticTooltip');
+        if (tooltip.classList.contains('hidden')) {
+            tooltip.classList.remove('hidden');
+        } else {
+            tooltip.classList.add('hidden');
+        }
+    });
+</script>
+</body>
+</html>

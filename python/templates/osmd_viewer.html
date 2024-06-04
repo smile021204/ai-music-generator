@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Display and Playback</title>
+    <script src="https://unpkg.com/opensheetmusicdisplay"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tone@14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.23.1/es6/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/focus-visible@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html-midi-player@1.4.0"></script>
+    <style>
+        #score {
+            width: 100%;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<button id="backButton">Go Back</button>
+<div id="score"></div>
+<midi-player src="{{ midi_file }}" sound-font visualizer="#myVisualizer"></midi-player>
+<midi-visualizer id="myVisualizer" type="waterfall"></midi-visualizer>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(document.getElementById('score'));
+
+        async function loadMusicXML(xmlUrl) {
+            await osmd.load(xmlUrl);
+            osmd.render();
+        }
+
+        const midiFile = "{{ midi_file }}";
+        const musicxmlFile = "{{ musicxml_file }}";
+
+        if (musicxmlFile) {
+            loadMusicXML(musicxmlFile);
+        }
+    });
+    document.getElementById('backButton').addEventListener('click', function () {
+        window.history.back();
+    });
+</script>
+</body>
+<body>
+{% if midi_file %}
+    <h2>MIDI File</h2>
+    <a href="{{ download_midi_url }}" download>Download MIDI</a>
+{% endif %}
+
+{% if musicxml_file %}
+    <h2>MusicXML File</h2>
+    <a href="{{ download_xml_url }}" download>Download MusicXML</a>
+{% endif %}
+</body>
+</html>

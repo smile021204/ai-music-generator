@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Music Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 18px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+<div id="homeScreen" class="h-screen flex flex-col items-center justify-center bg-cover bg-center relative"
+     style="background-image: url('https://source.unsplash.com/featured/?music,sheet');">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="z-10 text-white text-center">
+        <h1 class="text-4xl font-bold mb-4">AI Music Generator</h1>
+        <p class="text-xl mb-8">Compose your own Classic or Modern POP style melody</p>
+        <button onclick="navigateTo('styleSelection.html')" class="bg-black text-white py-2 px-4 rounded">Generate your
+            melody
+        </button>
+    </div>
+</div>
+</body>
+
+
+<script>
+
+
+    function navigateTo(screenId) {
+        window.location.href = screenId;
+    }
+
+    document.querySelector('#homeScreen button').addEventListener('click', function () {
+        navigateTo('styleSelection.html');
+    });
+
+</script>
+</body>
+</html>
